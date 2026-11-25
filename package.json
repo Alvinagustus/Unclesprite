@@ -1,0 +1,24 @@
+{
+  "name": "unclesprite",
+  "version": "0.1.0",
+  "description": "The paranoid Thanksgiving personal agent that lives in a Fly.io Sprite bunker.",
+  "type": "module",
+  "bin": {
+    "unclesprite": "dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/server.js",
+    "demo": "bash scripts/demo.sh",
+    "test": "node --test dist/tests/",
+    "smoke": "node --test dist/tests/"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^26.6.10",
+    "typescript": "^7.0.2"
+  }
+}

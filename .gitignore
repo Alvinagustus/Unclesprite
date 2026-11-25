@@ -1,0 +1,46 @@
+# deps
+node_modules/
+.pnp
+.pnp.js
+
+# build
+dist/
+build/
+*.tsbuildinfo
+
+# env / secrets
+.env
+.env.*
+*.key
+*.pem
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# os
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+*.swp
+
+# test artifacts
+coverage/
+.nyc_output/
+test-results/
+*.tmp
+
+# sprite local context (user-specific)
+.sprite
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/

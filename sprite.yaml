@@ -1,0 +1,42 @@
+# UncleSprite — Fly.io Sprites deployment manifest
+#
+# This file documents how UncleSprite runs on Fly.io Sprites. A Sprite is a
+# hardware-isolated, persistent Linux VM. The agent code is pushed into the
+# Sprite and executed there; all external API access goes through the Sprites
+# Connector Gateway (no provider keys ever enter the VM).
+#
+# Provision (one-time, from your workstation with the sprite CLI):
+#   sprite create unclesprite            # use any name you like
+#   sprite use unclesprite
+#
+# Connectors (create in the Fly.io dashboard, then grant access to this Sprite):
+#   - GitHub        (OAuth)              -> GITHUB_CONN_ID
+#   - OpenRouter    (BYOK, has Jev)      -> OPENROUTER_CONN_ID
+#   - Pinecone      (BYOK, 384-d index)  -> PINECONE_CONN_ID
+#
+# Deploy + run (from the repo root):
+#   ./scripts/deploy.sh
+#   ./scripts/demo.sh
+
+sprite: unclesprite
+org: <your-fly-org>
+runtime: ubuntu-25.10
+entrypoint: node dist/src/server.js
+http:
+  port: 8080
+  public: true
+env:
+  PORT: "8080"
+  GITHUB_CONN_ID: "<github connector id>"
+  OPENROUTER_CONN_ID: "<openrouter connector id>"
+  PINECONE_CONN_ID: "<pinecone connector id>"
+  JEV_MODEL: "typesafe/jev-1.14"
+connectors:
+  - provider: github
+    purpose: "read issues, post verdict comment (load-bearing)"
+  - provider: openrouter
+    purpose: "Jev typed decisions via /v1/systemone (load-bearing)"
+  - provider: pinecone
+    purpose: "grudge memory, 384-d cosine index (load-bearing)"
+checkpoints:
+  - "bunker mode snapshots the VM before each run (host-side)"
